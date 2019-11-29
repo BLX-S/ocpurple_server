@@ -70,8 +70,8 @@ button {
     }
 
 .rules{
-    width: 700px;
-    position: absolute;
+    /*width: 700px;*/
+    position: relative;
     margin: 0px auto;
     top: 0;
   right: 0;
