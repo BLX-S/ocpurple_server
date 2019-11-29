@@ -12,6 +12,10 @@ var usernames = {};
 var pairCount = 0, clientsno, pgmstart=0,varCounter;
 var scores = {};
 
+var secondScreenSockets = [];
+
+
+
 server.listen(4444);
 console.log("Listening to 4444")
 console.log("Connection Established !")
@@ -21,8 +25,17 @@ app.get('/',function (req,res){
 	res.sendFile(__dirname + '/index.html');
 });
 
+app.get('/secondscreen',function(req,res){
+	res.sendFile(__dirname + '/secondscreen.html');
+});
+
 io.sockets.on('connection', function(socket){
 	console.log("New Client Arrived!");
+
+	socket.on('addSecondScreen', function(){
+		console.log('Second screen ready');
+		secondScreenSockets.push(socket);
+	});
 
 	socket.on('addClient', function(username){
 		socket.username = username;
@@ -43,14 +56,19 @@ io.sockets.on('connection', function(socket){
 		socket.emit('updatechat', 'SERVER', 'You are connected! <br> Waiting for other player to connect...',id);
 		
 		socket.broadcast.to(id).emit('updatechat', 'SERVER', username + ' has joined to this game !',id);
-
 		
 		if(pgmstart ==2){
 			fs.readFile(__dirname + "/lib/questions.json", "Utf-8", function(err, data){
 				jsoncontent = JSON.parse(data);
 				io.sockets.in(id).emit('sendQuestions',jsoncontent);
-				
-			});
+				for (_i=0; _i < secondScreenSockets.length;
+_i++){
+		secondScreenSockets[_i].emit('receiveQuestions',
+jsoncontent);
+}
+		console.log(secondScreenSockets);
+
+		});
 		console.log("Player2");
 			//io.sockets.in(id).emit('game', "haaaaai");
 		} else {
