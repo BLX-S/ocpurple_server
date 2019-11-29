@@ -19,7 +19,9 @@ body{
     background-color: #ffc916;
     position: static;
 }
-
+h1 h2 h3 h4 h5 h6 p {
+    color: #070721;
+}
 h2{
     color: #070721;
     font-family: 'frutiger', sans-serif;
@@ -78,7 +80,7 @@ h2{
     margin-top:200px;
     font-size: 30px;
     text-align: center;
-    color: #FFC917;
+    color: #070721;
 }
 
 #finalresult_show {
@@ -132,7 +134,7 @@ h2{
   color: #f60d54;
 }
 .loading-page .counter h3 {
-  color: #FFC917;
+  color: #070721;
   font-size: 60px;
   position: fixed;
   bottom: 30px;
