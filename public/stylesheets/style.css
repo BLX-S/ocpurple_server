@@ -56,8 +56,12 @@ h2{
     /*font-weight: bold;*/
     font-family: 'frutiger', sans-serif;
     border-radius: 25px;
-    width: 100% !important;
+
     }
+
+button {
+    width: 100% !important;
+}
 
 .just_start, .started, .intermediate,.rules{
     background-color: #FFC917;
