@@ -27,6 +27,8 @@
 
 	socket.on('receiveQuestions', function(data){
 		console.log(data);
+		$(".started").fadeIn('slow');
+		$("#qst").text(data.questions[0].question);
 	});
 
 	socket.on('sendQuestions', function(data){
