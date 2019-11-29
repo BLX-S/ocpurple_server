@@ -17,10 +17,11 @@
 body{
     font-family: 'frutiger', sans-serif;
     background-color: #ffc916;
-    position: static;
+    /*position: static;*/
 }
 h1 h2 h3 h4 h5 h6 p {
-    color: #070721;
+
+    color: #070721 !important;
 }
 h2{
     color: #070721;
@@ -28,7 +29,7 @@ h2{
     }
 
 #realresults{
-    color: #FFC917;
+    color: #070721;
 }
 
 
