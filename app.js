@@ -4,10 +4,12 @@ var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 var fs = require('fs');
 
+const id = Math.round((Math.random() * 1000000));
+
 app.use('/', express.static(__dirname + '/public'));
 
 var usernames = {};
-var pairCount = 0, id, clientsno, pgmstart=0,varCounter;
+var pairCount = 0, clientsno, pgmstart=0,varCounter;
 var scores = {};
 
 server.listen(4444);
@@ -28,17 +30,11 @@ io.sockets.on('connection', function(socket){
 		scores[socket.username] = 0;
 		varCounter = 0
 		//var id = Math.round((Math.random() * 1000000));
-		pairCount++;
-		if(pairCount === 1 || pairCount >=3){
-			id = Math.round((Math.random() * 1000000));
-			socket.room = id;
-			pairCount = 1;
-			console.log(pairCount + " " + id);
+		if(username != 'startquiz'){
 			socket.join(id);
+			socket.room = id;
 			pgmstart = 1;
-		} else if (pairCount === 2){
-        	console.log(pairCount + " " + id);
-        	socket.join(id);
+		} else {
         	pgmstart = 2;
     	}
 		
@@ -60,14 +56,8 @@ io.sockets.on('connection', function(socket){
 		} else {
 			console.log("Player1");
 
-		}
-
-
-
-
-  
-	});
-
+		}  
+});
 
 	socket.on('result', function (usr,rst) {
 		
@@ -82,7 +72,6 @@ io.sockets.on('connection', function(socket){
 	
 	
 	socket.on('disconnect', function(){
-		
 		delete usernames[socket.username];
 		io.sockets.emit('updateusers', usernames);
 		//io.sockets.in(id).emit('updatechat', 'SERVER', socket.username + ' has disconnected',id);
