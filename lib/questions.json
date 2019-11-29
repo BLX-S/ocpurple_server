@@ -1,7 +1,8 @@
 {"questions":[
 	{"question": "Hoeveel kilometer aan spoorwegen ligt er in Nederland?", "choices": ["4505 KM", "3102 KM", "3874 KM", "2809 KM"], "correctAnswer":3},
-	{"question": "Welke achternaam komt in Nederland het meest voor?", "choices": ["De Vries", "Smit", "Bakker", "De Jong"], "correctAnswer":2},
-	{"question": "Wanneer trouwden Prins Willem Alexander en Maxima?", "choices": ["03-06-2001", "02-02-2002", "04-05-2005", "01-04-2008"], "correctAnswer":0}
+	{"question": "Welke achternaam komt in Nederland het meest voor?", "choices": ["De Vries", "Smit", "Bakker", "De Jong"], "correctAnswer":0},
+	{"question": "Wanneer trouwden Prins Willem Alexander en Maxima?", "choices": ["03-06-2001", "02-02-2002", "04-05-2005", "01-04-2008"], "correctAnswer":1},
+	{"question": "Hoe heet het grootste Nederlandse Waddeneiland?", "choices": ["Texel", "Schiermonnikoog", "Ameland", "Terschelling"], "correctAnswer":0}
 ]}
 
 
