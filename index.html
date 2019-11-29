@@ -9,7 +9,24 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
 	<script>
 	var socket = io.connect("http://localhost:4444");
-	var i,username,j=0,myscore=0,otherscore=0,finalresults,ti,user_id;
+	var i,username,j=0,myscore=0,finalresults,ti,user_id;
+	const otherscores = {}
+
+	socket.on('users', (users) => {
+		for(const user in users) {
+			otherscores[user] = 0;
+		}
+		var items = Object.keys(otherscores).map(function(key) {
+  			return [key, otherscores[key]];
+		});
+		items.sort(function(first, second) {
+  			return second[1] - first[1];
+		});
+		items = items.map(x => x[0] + " " + x[1])
+		const results = items.join('<br>')
+		console.log(results)
+		$("#finalresult").html(results)
+	})
 	
 	socket.on('updatechat', function (username, data,id) {
 		$('#conversation').append('<br>' + data + '<br>');
@@ -30,7 +47,7 @@
 
 		doFunction();
 		
-		i=0;
+		i=3;
 
 		ti = setInterval(function(){
 		$(".rules").fadeOut();
@@ -75,7 +92,7 @@
     			var givenAns = this.value;
     			var correctAns = data.questions[i-1].correctAnswer; 
     			var response = (givenAns == correctAns); 
-    			if(response){
+    			if(response){    
     				if(j==1){
     				socket.emit('result',username,user_id);
     				console.log("correct ans");
@@ -107,28 +124,41 @@
 	});
 
 	socket.on('viewresult',function(usr){
+		console.log("testststtststst")
+		if(usr in otherscores) {
+			otherscores[username]+=10;
+		} else {
+			otherscores[username] =  0;
+		}
+
 		if(usr == username){
-				myscore+=10;
-				$("#myresult").text(myscore);
+			$("#myresult").text(otherscores[usr]);
 
 		}
-		else{
-			otherscore+=10;
-				$("#otherresult").text(otherscore);
-		}
 
-		if(myscore>otherscore){
-			$("#finalresult").text("You Win!");
-			//finalresults=0;
-			//console.log("final winner");
-		} else if(myscore<otherscore){
-			$("#finalresult").text("You Lose..");
-			//finalresults=1;
-			//console.log("final loser");
-		} else{
-			//finalresults=2;
-			$("#finalresult").text("Tie!");
-		}
+		console.log(otherscores)
+		var items = Object.keys(otherscores).map(function(key) {
+  			return [key, otherscores[key]];
+		});
+		items.sort(function(first, second) {
+  			return second[1] - first[1];
+		});
+		items = items.map(x => x[0] + " " + x[1])
+		const results = items.join('<br>')
+		console.log(results)
+		$("#finalresult").html(results)
+		// if(myscore>otherscore){
+		// 	$("#finalresult").text("You Win!");
+		// 	//finalresults=0;
+		// 	//console.log("final winner");
+		// } else if(myscore<otherscore){
+		// 	$("#finalresult").text("You Lose..");
+		// 	//finalresults=1;
+		// 	//console.log("final loser");
+		// } else{
+		// 	//finalresults=2;
+		// 	$("#finalresult").text("Tie!");
+		// }
 
 	});
 
@@ -158,9 +188,6 @@
 			<div class="col-md-6">
 				<h4>My Score <b><div id="myresult" >0</div></b></h4>
 			</div>
-			<div class="col-md-6" style="text-align:right;">
-				<h4>Opponent Score<b><div id="otherresult" >0</div></b></h4>
-			</div>
 		</div>
 	</div>
 </div>
@@ -169,7 +196,7 @@
 <div class="row">
 	<div class="col-md-12 text-center">
 		<div class="rules" style='display:none;'>
-			<h2>2 Players Connected <br>The game will start in 10 seconds....</h2>
+			<h2>The game will start in 10 seconds....</h2>
 				<div class="panel panel-warning"> 
 					<div class="panel-heading"> 
 						<h3 class="panel-title">Rules</h3> 

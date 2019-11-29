@@ -25,15 +25,17 @@ io.sockets.on('connection', function(socket){
 	console.log("New Client Arrived!");
 
 	socket.on('addClient', function(username){
+		if(username in usernames) {
+			username = username + '_'
+		}
 		socket.username = username;
-		usernames[username] = username;
 		scores[socket.username] = 0;
 		varCounter = 0
 		//var id = Math.round((Math.random() * 1000000));
 		if(username != 'startquiz'){
 			socket.join(id);
+			usernames[username] = username;
 			socket.room = id;
-			pgmstart = 1;
 		} else {
         	pgmstart = 2;
     	}
@@ -49,6 +51,7 @@ io.sockets.on('connection', function(socket){
 			fs.readFile(__dirname + "/lib/questions.json", "Utf-8", function(err, data){
 				jsoncontent = JSON.parse(data);
 				io.sockets.in(id).emit('sendQuestions',jsoncontent);
+				io.sockets.in(id).emit('users', usernames)
 				
 			});
 		console.log("Player2");
@@ -59,14 +62,11 @@ io.sockets.on('connection', function(socket){
 		}  
 });
 
-	socket.on('result', function (usr,rst) {
-		
-				io.sockets.in(rst).emit('viewresult',usr);
-				//io.in(id).emit('viewresult',usr);
-				//console.log("Mark = "+usr);
-				//console.log(id);	
-
+	socket.on('result', function (usr, rst) {
+				console.log(usr, rst)
+				io.sockets.in(rst).emit('viewresult', usr);	
 	});
+
 
 
 	
