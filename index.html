@@ -126,9 +126,9 @@
 	socket.on('viewresult',function(usr){
 		console.log("testststtststst")
 		if(usr in otherscores) {
-			otherscores[username]+=10;
+			otherscores[usr]+=10;
 		} else {
-			otherscores[username] =  0;
+			otherscores[usr] =  0;
 		}
 
 		if(usr == username){

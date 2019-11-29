@@ -63,6 +63,7 @@ io.sockets.on('connection', function(socket){
 			fs.readFile(__dirname + "/lib/questions.json", "Utf-8", function(err, data){
 				jsoncontent = JSON.parse(data);
 				io.sockets.in(id).emit('sendQuestions',jsoncontent);
+				io.sockets.in(id).emit('users', usernames);
 				for (_i=0; _i < secondScreenSockets.length;
 _i++){
 		secondScreenSockets[_i].emit('receiveQuestions',
